@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Unicorn Dreams ✨</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(to right, #fceff9, #dbe9f4);
+      font-family: 'Segoe UI', sans-serif;
+      color: #4a4a4a;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Navbar */
+    nav {
+      background: rgba(255, 255, 255, 0.85);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    nav .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    nav .logo img {
+      height: 40px;
+    }
+
+    nav .logo span {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: #86469C;
+    }
+
+    nav .nav-links a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #555;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav .nav-links a:hover {
+      color: #A084DC;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 700px;
+      margin: 100px auto;
+      padding: 40px;
+      background: white;
+      border-radius: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      position: relative;
+      animation: borderGlow 5s infinite alternate;
+    }
+
+    @keyframes borderGlow {
+      from { box-shadow: 0 0 15px #A084DC; }
+      to { box-shadow: 0 0 30px #BFACE2; }
+    }
+
+    h1 {
+      font-size: 2.6em;
+      color: #86469C;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 15px 35px;
+      font-size: 1em;
+      background: linear-gradient(135deg, #A084DC, #BFACE2);
+      border: none;
+      border-radius: 40px;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+    }
+
+    #story {
+      margin-top: 30px;
+      font-size: 1.3em;
+      color: #5A5A5A;
+      animation: fadeIn 0.5s ease-in-out;
+      min-height: 80px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Sparkles background */
+    .sparkles {
+      position: fixed;
+      top: -100px;
+      left: 0;
+      width: 100%;
+      height: 200%;
+      background-image: radial-gradient(#ffffff 1px, transparent 1px);
+      background-size: 20px 20px;
+      opacity: 0.08;
+      z-index: -1;
+      animation: moveBackground 60s linear infinite;
+    }
+
+    @keyframes moveBackground {
+      from { background-position: 0 0; }
+      to { background-position: 1000px 1000px; }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      nav .nav-links {
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sparkles"></div>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Unicorn Logo">
+      <span>Unicorn Dreams</span>
+    </div>
+    <div class="nav-links">
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Services</a>
+    </div>
+  </nav>
+
+  <!-- Main Section -->
+  <div class="container">
+    <h1>✨ Bedtime Unicorn Story ✨</h1>
+    <button onclick="getStory()">Get Your Magical Story</button>
+    <p id="story"></p>
+  </div>
+
+  <script>
+  const chime = new Audio("C:\Users\DELL\Downloads\soothing-bedtime-lullaby-with-harp-and-twinkling-sounds-for-free-359046.mp3");
+  const backgroundMusic = new Audio("C:\Users\DELL\Downloads\soothing-bedtime-lullaby-with-harp-and-twinkling-sounds-for-free-359046.mp3");
+  backgroundMusic.loop = true;
+
+  async function getStory() {
+    // Start background music (only once)
+    if (backgroundMusic.paused) {
+      backgroundMusic.play().catch((e) => {
+        console.log("Autoplay blocked. User interaction required.");
+      });
+    }
+
+    const res = await fetch('http://127.0.0.1:5000/story');
+    const data = await res.json();
+    document.getElementById('story').innerText = data.story;
+    chime.play(); // Play magical chime
+  }
+</script>
+
+</body>
+</html>
